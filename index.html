@@ -6,29 +6,147 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Market SQC Dashboard</title>
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; color: #2c3e50; padding: 20px; }
-            .container { max-width: 1100px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-            h1 { text-align: center; color: #2c3e50; margin-bottom: 5px; font-size: 2.2em; }
-            .timestamp { text-align: center; font-size: 1.1em; color: #7f8c8d; font-weight: 500; margin-bottom: 30px; }
+            :root {
+                --primary: #2c3e50;
+                --secondary: #34495e;
+                --bg-color: #f4f7f6;
+                --box-bg: #ffffff;
+                --text-main: #333;
+                --text-muted: #7f8c8d;
+                --border-light: #e0e6ed;
+            }
             
-            .summary-box { background: #fdfefe; border-left: 5px solid #34495e; padding: 15px 20px; margin-bottom: 30px; font-size: 1.2em; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
             
-            table { width: 100%; border-collapse: collapse; margin-bottom: 40px; font-size: 1.1em; }
-            th, td { padding: 15px; text-align: center; border-bottom: 1px solid #ddd; }
-            th { background-color: #34495e; color: white; font-weight: 600; }
-            tr:hover { background-color: #f1f2f6; }
+            body { 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                background-color: var(--bg-color); 
+                color: var(--text-main); 
+                padding: 15px; 
+                line-height: 1.6;
+            }
             
-            .chart-container { text-align: center; margin-bottom: 40px; }
-            img { max-width: 100%; height: auto; border: 1px solid #ecf0f1; border-radius: 8px; }
+            .container { 
+                max-width: 1200px; 
+                margin: 0 auto; 
+                background: var(--box-bg); 
+                padding: 25px; 
+                border-radius: 12px; 
+                box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
+            }
             
-            .footer { text-align: center; font-size: 0.9em; color: #95a5a6; border-top: 1px solid #ecf0f1; padding-top: 20px; }
-            .footer strong { color: #2c3e50; }
+            h1 { 
+                text-align: center; 
+                color: var(--primary); 
+                font-size: clamp(1.8rem, 4vw, 2.5rem); 
+                margin-bottom: 5px; 
+            }
+            
+            .timestamp { 
+                text-align: center; 
+                font-size: clamp(0.9rem, 2vw, 1.1rem); 
+                color: var(--text-muted); 
+                font-weight: 500; 
+                margin-bottom: 25px; 
+            }
+            
+            .summary-box { 
+                background: #fdfefe; 
+                border-left: 6px solid var(--secondary); 
+                padding: 15px 20px; 
+                margin-bottom: 30px; 
+                font-size: clamp(1rem, 2vw, 1.15rem); 
+                border-radius: 6px; 
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            }
+            
+            /* Responsive Table Wrapper */
+            .table-responsive {
+                width: 100%;
+                overflow-x: auto;
+                margin-bottom: 30px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            }
+            
+            table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                min-width: 700px; /* Forces scroll on very small screens instead of squishing */
+                background: white;
+            }
+            
+            th, td { 
+                padding: 16px 12px; 
+                text-align: center; 
+                border-bottom: 1px solid var(--border-light); 
+                font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            }
+            
+            th { 
+                background-color: var(--secondary); 
+                color: white; 
+                font-weight: 600; 
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            tr:hover { background-color: #f8f9fa; }
+            tr:last-child td { border-bottom: none; }
+            
+            /* Highlight the new Sentiment Row */
+            .sentiment-row {
+                background-color: #f4f6f7;
+                border-top: 2px solid var(--secondary);
+            }
+            
+            .chart-container { 
+                text-align: center; 
+                margin-bottom: 30px; 
+                background: white;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid var(--border-light);
+            }
+            
+            .chart-container h3 {
+                text-align: left;
+                margin-bottom: 15px;
+                color: var(--primary);
+                font-size: 1.3rem;
+            }
+            
+            img { 
+                max-width: 100%; 
+                height: auto; 
+                border-radius: 6px; 
+                display: block;
+                margin: 0 auto;
+            }
+            
+            .footer { 
+                text-align: center; 
+                font-size: 0.9rem; 
+                color: var(--text-muted); 
+                border-top: 1px solid var(--border-light); 
+                padding-top: 20px; 
+                margin-top: 20px;
+            }
+            
+            .footer strong { color: var(--primary); }
+
+            /* Mobile Specific Adjustments */
+            @media (max-width: 768px) {
+                .container { padding: 15px; }
+                th, td { padding: 12px 8px; }
+                .summary-box { padding: 12px; }
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <h1>Automated Market Quality Control (SQC)</h1>
-            <div class="timestamp">Live Data Refreshed: 15 July 2026, 03:57 PM</div>
+            <div class="timestamp">Live Data Refreshed: 15 July 2026, 05:19 PM</div>
             
             <!-- 1. Executive Summary -->
             <div class="summary-box">
@@ -36,40 +154,51 @@
             </div>
             
             <!-- 2. Statistical Scorecard -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Commodity</th>
-                        <th>Closing Price (Rs)</th>
-                        <th>Mean (μ)</th>
-                        <th>LCL (μ - 3σ)</th>
-                        <th>UCL (μ + 3σ)</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Gold</strong></td>
-                        <td>116.41</td>
-                        <td>116.2</td>
-                        <td>115.34</td>
-                        <td>117.07</td>
-                        <td>🟢 NORMAL</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Silver</strong></td>
-                        <td>208.92</td>
-                        <td>208.69</td>
-                        <td>207.71</td>
-                        <td>209.67</td>
-                        <td>🟢 NORMAL</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric / Asset</th>
+                            <th>Current Value</th>
+                            <th>Mean (μ)</th>
+                            <th>LCL (μ - 3σ)</th>
+                            <th>UCL (μ + 3σ)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Gold ETF (Rs)</strong></td>
+                            <td>116.41</td>
+                            <td>116.2</td>
+                            <td>115.34</td>
+                            <td>117.07</td>
+                            <td>🟢 NORMAL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Silver ETF (Rs)</strong></td>
+                            <td>208.92</td>
+                            <td>208.69</td>
+                            <td>207.71</td>
+                            <td>209.67</td>
+                            <td>🟢 NORMAL</td>
+                        </tr>
+                        <!-- NEW: Market Sentiment Row -->
+                        <tr class="sentiment-row">
+                            <td><strong>Banking News Sentiment</strong></td>
+                            <td>0.1644</td>
+                            <td>0.1777</td>
+                            <td>0.1214</td>
+                            <td>0.234</td>
+                            <td>🟢 NORMAL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             
             <!-- 3. Visual Proof (Control Charts) -->
             <div class="chart-container">
-                <h3 style="text-align: left; margin-bottom: 15px;">Statistical Variance Visualization</h3>
+                <h3>Statistical Variance Visualization</h3>
                 <img src="latest_chart.png" alt="SQC Control Chart">
             </div>
             
