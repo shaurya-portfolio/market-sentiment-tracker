@@ -145,10 +145,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>Automated Market Quality Control (SQC)</h1>
-            <div class="timestamp">Live Data Refreshed: 15 July 2026, 05:19 PM</div>
+            <h1>Market Sentiment Tracker (Automated)</h1>
+            <div class="timestamp">Live Data Refreshed: 15 July 2026, 06:16 PM</div>
             
             <!-- 1. Executive Summary -->
+            <h3>Executive Summary</h3>
             <div class="summary-box">
                 <span style='color: #27ae60; font-weight: bold;'>ALL CLEAR:</span> Both Gold and Silver are trading smoothly within expected statistical control limits.
             </div>
@@ -160,9 +161,9 @@
                         <tr>
                             <th>Metric / Asset</th>
                             <th>Current Value</th>
-                            <th>Mean (μ)</th>
-                            <th>LCL (μ - 3σ)</th>
-                            <th>UCL (μ + 3σ)</th>
+                            <th>Mean</th>
+                            <th>LCL</th>
+                            <th>UCL</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -186,10 +187,10 @@
                         <!-- NEW: Market Sentiment Row -->
                         <tr class="sentiment-row">
                             <td><strong>Banking News Sentiment</strong></td>
-                            <td>0.1644</td>
-                            <td>0.1777</td>
-                            <td>0.1214</td>
-                            <td>0.234</td>
+                            <td>0.137</td>
+                            <td>0.164</td>
+                            <td>0.0496</td>
+                            <td>0.2785</td>
                             <td>🟢 NORMAL</td>
                         </tr>
                     </tbody>
@@ -198,13 +199,13 @@
             
             <!-- 3. Visual Proof (Control Charts) -->
             <div class="chart-container">
-                <h3>Statistical Variance Visualization</h3>
+                <h3>Statistical Variance Visualization by SQC</h3>
                 <img src="latest_chart.png" alt="SQC Control Chart">
             </div>
             
             <!-- 4. Technical Architecture -->
             <div class="footer">
-                Built by <strong>Shaurya Sinha</strong> | Data Engineering & Statistics <br>
+                Built by <strong>Shaurya Sinha</strong><br>
                 <em>Automated via Python ETL, SQLite, and GitHub Actions/Pages Ecosystem.</em>
             </div>
         </div>
