@@ -90,7 +90,7 @@ def scrape_commodity_prices():
             })
         else:
             #warning in case class is changed by the admin of the site
-            print(f"⚠️ ALERT: Price extraction failed for {asset} ETF.")
+            print(f" ALERT: Price extraction failed for {asset} ETF.")
             print(f"   Reason: The CSS class might have been updated by Google Finance.")
             print(f"   Action: Open {url}, inspect the price element, and update the class name in scraper.py.")
     return prices_data
@@ -106,4 +106,4 @@ if __name__ == "__main__":
     test_url = "https://economictimes.indiatimes.com/industry/banking/finance/banking"
     bank_news = scrape_financial_news(test_url)
     for news in bank_news:
-        print("-",news['Headline'])
+        print("-",news['Headline'].encode('ascii', 'ignore').decode('ascii'))

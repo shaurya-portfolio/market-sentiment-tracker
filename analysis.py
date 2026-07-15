@@ -122,7 +122,7 @@ def plot_control_charts(df):
 
     print("Generating SQC Control Charts.....")
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 14), sharex=True)
 
     #gold sqc chart
     ax1.plot(df.index,df['gold_price'],marker='o', color='gold', label='Gold Price', alpha=0.8)
@@ -148,14 +148,28 @@ def plot_control_charts(df):
     silver_anomalies = df[(df['silver_price'] > df['silver_ucl']) | (df['silver_price'] < df['silver_lcl'])]
     ax2.scatter(silver_anomalies.index, silver_anomalies['silver_price'], color='red', s=150, zorder=5, label='ANOMALY')
     ax2.set_title("Silver Market Shocks Control Chart", fontsize=14, fontweight='bold')
-    ax2.set_xlabel("Date", fontsize=12)
     ax2.set_ylabel("Price (Rs)", fontsize=12)
     ax2.legend()
     ax2.grid(True, linestyle='--', alpha=0.5)
+
+    # sentiment sqc chart
+    ax3.plot(df.index, df['avg_sentiment'], marker='o', color='blue', label='Avg Sentiment', alpha=0.7)
+    ax3.axhline(df['sentiment_mean'].iloc[0], color='green', linestyle='--', linewidth=2, label='Mean (\u03bc)')
+    ax3.axhline(df['sentiment_ucl'].iloc[0], color='red', linestyle='-', linewidth=2, alpha=0.6, label='UCL')
+    ax3.axhline(df['sentiment_lcl'].iloc[0], color='red', linestyle='-', linewidth=2, alpha=0.6, label='LCL')
+    
+    # sentiment anomalies
+    sentiment_anomalies = df[(df['avg_sentiment'] > df['sentiment_ucl']) | (df['avg_sentiment'] < df['sentiment_lcl'])]
+    ax3.scatter(sentiment_anomalies.index, sentiment_anomalies['avg_sentiment'], color='red', s=150, zorder=5, label='ANOMALY')
+    ax3.set_title("Market News Sentiment Control Chart", fontsize=14, fontweight='bold')
+    ax3.set_xlabel("Date", fontsize=12)
+    ax3.set_ylabel("Sentiment Score", fontsize=12)
+    ax3.legend()
+    ax3.grid(True, linestyle='--', alpha=0.5)
     
     
     plt.tight_layout()
-    plt.show()
+    plt.savefig('latest_chart.png', bbox_inches='tight')
 
 if __name__ == "__main__":
     raw_df = get_unified_timeseries_data()
