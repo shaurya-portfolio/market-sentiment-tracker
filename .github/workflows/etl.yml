@@ -1,0 +1,37 @@
+name : Market SQC Daily ETL Pipeline
+
+on:
+  schedule:
+    - cron:'30 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  execute-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python Engine
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install Technical Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas beautifulsoup4 requests nltk python-dotenv matplotlib
+
+      - name: Run Market Tracker Pipeline
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python main.py
+
+      - name: Commit and Push Updated Data
+        run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add index.html latest_chart.png market_data.db
+            git commit -m "Automated Market Data & SQC Refresh" || echo "No changes to commit"
+            git push
