@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from datetime import datetime
+from datetime import datetime,timedelta
 
 load_dotenv()
 
@@ -350,9 +350,11 @@ def send_executive_email():
     Access the live statistical report here: {LIVE_URL}
     
     Regards,
-    Automated Python Pipeline
-    {datetime.now().strftime('%d %b')}
-    """
+    Automated Python Pipeline"""
+    now = datetime.now(datetime.UTC) + timedelta(hours=5, minutes=30)
+    timestamp_str = now.strftime("%d %B %Y, %I:%M %p")
+    {timestamp_str}
+    
     msg.set_content(email_body)
     
     try:
