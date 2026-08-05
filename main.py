@@ -351,7 +351,7 @@ def send_executive_email():
     
     Regards,
     Automated Python Pipeline"""
-    now = datetime.now(datetime.UTC) + timedelta(hours=5, minutes=30)
+    now = datetime.utcnow() + timedelta(hours=5, minutes=30)
     timestamp_str = now.strftime("%d %B %Y, %I:%M %p")
     {timestamp_str}
     
